@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BulkMailer Pro — Hostinger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0d0d0d;
+    --bg2:     #111111;
+    --card:    #161616;
+    --card2:   #1e1e1e;
+    --border:  #2a2a2a;
+    --accent:  #e84118;
+    --accent2: #ff5733;
+    --text:    #ffffff;
+    --muted:   #888888;
+    --muted2:  #555555;
+    --green:   #22c55e;
+    --yellow:  #f59e0b;
+    --red:     #ef4444;
+    --radius:  8px;
+    --font:    'Google Sans Flex', 'Google Sans', 'Segoe UI', system-ui, sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Scrollbar ───────────────────────────── */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  /* ── Header / Nav ────────────────────────── */
+  header {
+    background: #0d0d0d;
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 900; color: #fff;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .logo-text span { color: var(--accent); }
+
+  .nav-sep {
+    width: 1px; height: 20px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+
+  .nav-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .daily-badge {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .daily-badge .val {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .daily-pill {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .daily-pill strong { color: var(--accent); }
+
+  /* ── Page wrapper ────────────────────────── */
+  .page {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* ── Section label ───────────────────────── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Cards ───────────────────────────────── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #3a3a3a; }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title-icon {
+    width: 20px; height: 20px;
+    background: rgba(232,65,24,0.12);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+
+  /* ── Forms ───────────────────────────────── */
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 9px 12px;
+    font-size: 13px;
+    font-family: var(--font);
+    font-weight: 400;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted2); }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232,65,24,0.1);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+  }
+
+  textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hint { font-size: 11px; color: var(--muted2); margin-top: 5px; }
+
+  /* ── Buttons ─────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 7px; padding: 9px 18px; border-radius: 6px; font-size: 13px;
+    font-family: var(--font); font-weight: 600; cursor: pointer;
+    border: none; transition: all 0.2s; letter-spacing: 0.1px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+  .btn-success { background: #16a34a; color: #fff; }
+  .btn-success:hover { background: #15803d; transform: translateY(-1px); }
+  .btn-danger { background: #991b1b; color: #fff; border: 1px solid #ef4444; }
+  .btn-danger:hover { background: #7f1d1d; }
+  .btn-warn { background: #78350f; color: #f59e0b; border: 1px solid #92400e; }
+  .btn-warn:hover { background: #92400e; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--text); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+  .btn-sm { padding: 6px 13px; font-size: 12px; }
+  .btn-block { width: 100%; }
+
+  /* ── Upload zone ─────────────────────────── */
+  .drop-zone {
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+    background: var(--bg);
+  }
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(232,65,24,0.04);
+    color: var(--text);
+  }
+  .drop-zone .dz-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    opacity: 0.7;
+  }
+  .drop-zone .dz-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .drop-zone .dz-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .drop-zone .dz-sub strong { color: var(--accent); }
+
+  /* ── Stats ───────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .stat-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 12px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .stat-box.s-total::before  { background: var(--accent); }
+  .stat-box.s-sent::before   { background: var(--green); }
+  .stat-box.s-failed::before { background: var(--red); }
+  .stat-box.s-skip::before   { background: var(--yellow); }
+
+  .stat-box .sv {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-box.s-total .sv  { color: var(--accent); }
+  .stat-box.s-sent .sv   { color: var(--green); }
+  .stat-box.s-failed .sv { color: var(--red); }
+  .stat-box.s-skip .sv   { color: var(--yellow); }
+  .stat-box .sl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+
+  /* ── Progress ────────────────────────────── */
+  .prog-wrap {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .prog-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ff9166);
+    border-radius: 20px;
+    transition: width 0.6s ease;
+    min-width: 0%;
+  }
+  .prog-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── Status pill ─────────────────────────── */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  }
+  .pill.idle    { background: rgba(136,136,136,0.1); color: var(--muted); }
+  .pill.running { background: rgba(232,65,24,0.12);  color: var(--accent); }
+  .pill.paused  { background: rgba(245,158,11,0.12); color: var(--yellow); }
+  .pill.done    { background: rgba(34,197,94,0.12);  color: var(--green); }
+  .pill.stopped { background: rgba(239,68,68,0.12);  color: var(--red); }
+  .pdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pdot.pulse { animation: pdot 1.2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* ── Controls row ────────────────────────── */
+  .ctrl-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Log ─────────────────────────────────── */
+  .log-panel {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    height: 280px;
+    overflow-y: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .log-line { padding: 1px 0; }
+  .log-line .lts  { color: #333; margin-right: 8px; }
+  .log-line.info .lmsg    { color: #555; }
+  .log-line.success .lmsg { color: var(--green); }
+  .log-line.warn .lmsg    { color: var(--yellow); }
+  .log-line.error .lmsg   { color: var(--red); }
+
+  /* ── Leads bar ───────────────────────────── */
+  .leads-info {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(232,65,24,0.06);
+    border: 1px solid rgba(232,65,24,0.2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .leads-info .lc { font-size: 20px; font-weight: 700; color: var(--accent); }
+  .leads-info .ll { color: var(--muted); font-size: 12px; }
+
+  /* ── Preview table ───────────────────────── */
+  .prev-table { margin-top: 12px; }
+  .prev-table table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .prev-table th {
+    text-align: left; padding: 6px 10px;
+    background: var(--bg); color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px;
+  }
+  .prev-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text); }
+
+  /* ── Banner ──────────────────────────────── */
+  .banner {
+    display: none; padding: 10px 14px; border-radius: 6px;
+    font-size: 12px; margin-bottom: 14px;
+    border-left: 3px solid var(--yellow);
+    background: rgba(245,158,11,0.08);
+    color: var(--yellow);
+  }
+  .banner.on { display: block; }
+
+  /* ── Tabs ────────────────────────────────── */
+  .tabs { display: flex; gap: 2px; margin-bottom: 12px; background: var(--bg); border-radius: 6px; padding: 3px; }
+  .tab {
+    flex: 1; padding: 6px; border-radius: 5px; font-size: 12px;
+    font-weight: 600; cursor: pointer; border: none;
+    background: transparent; color: var(--muted);
+    font-family: var(--font); transition: 0.2s; text-align: center;
+  }
+  .tab.on { background: var(--card2); color: var(--text); }
+  .tc { display: none; }
+  .tc.on { display: block; }
+
+  /* ── Preview Modal ───────────────────────── */
+  .overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85); z-index: 100;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .overlay.on { display: flex; }
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 680px; width: 94vw;
+    max-height: 88vh; overflow-y: auto;
+    position: relative;
+  }
+  .modal-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+  .modal-meta {
+    background: var(--bg); border-radius: 6px;
+    padding: 12px; margin-bottom: 14px; font-size: 13px;
+    border: 1px solid var(--border);
+  }
+  .modal-meta div { margin-bottom: 4px; color: var(--muted); }
+  .modal-meta div span { color: var(--text); }
+  .modal-body {
+    background: #fff; border-radius: 6px;
+    padding: 18px; color: #111; font-size: 13px; min-height: 80px;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--card2); border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer; font-size: 14px;
+    width: 28px; height: 28px; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+  }
+  .modal-close:hover { color: var(--text); border-color: var(--accent); }
+
+  /* ── Current email strip ─────────────────── */
+  .curr-strip {
+    background: rgba(232,65,24,0.07);
+    border: 1px solid rgba(232,65,24,0.15);
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    min-height: 30px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .curr-strip .arrow { color: var(--accent); font-size: 14px; }
+  .curr-strip .addr { color: var(--text); }
+
+  /* ── Responsive ──────────────────────────── */
+  @media (max-width: 960px) {
+    .page { grid-template-columns: 1fr; padding: 16px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="logo-mark">✕</div>
+  <div class="logo-text">Bulk<span>Mailer</span></div>
+  <div class="nav-sep"></div>
+  <div class="nav-label">Hostinger SMTP · Bulk Email Sender</div>
+  <div class="daily-badge" style="margin-left:auto">
+    <div class="daily-pill">
+      Daily sent: <strong id="dailySentHdr">0</strong> / 2,000
+    </div>
+  </div>
+</header>
+
+<!-- ══ MAIN LAYOUT ════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- ─── LEFT SIDEBAR ─────────────────────────────────────────────── -->
+  <div>
+
+    <!-- SMTP Config -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">⚙</div>
+          SMTP Configuration
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>SMTP Host</label>
+          <input type="text" id="smtpHost" value="smtp.hostinger.com">
+        </div>
+        <div class="field">
+          <label>Port</label>
+          <input type="number" id="smtpPort" value="587">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>From Name</label>
+          <input type="text" id="fromName" placeholder="Your Brand">
+        </div>
+        <div class="field">
+          <label>From Email</label>
+          <input type="email" id="fromEmail" placeholder="you@domain.com">
+        </div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="smtpPass" placeholder="Webmail password">
+      </div>
+      <div class="field">
+        <label>Gap Between Emails</label>
+        <select id="gapSelect">
+          <option value="60">1 minute</option>
+          <option value="120">2 minutes</option>
+          <option value="180" selected>3 minutes (Recommended)</option>
+          <option value="240">4 minutes</option>
+          <option value="300">5 minutes</option>
+          <option value="600">10 minutes</option>
+          <option value="900">15 minutes</option>
+        </select>
+        <div class="hint">±30 sec randomization applied automatically</div>
+      </div>
+    </div>
+
+    <!-- Email Composer -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">✉</div>
+          Email Composer
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="previewEmail()">👁 Preview</button>
+      </div>
+
+      <div class="field">
+        <label>Subject Line</label>
+        <input type="text" id="subject" placeholder="Hi {{name}}, exclusive offer!">
+      </div>
+
+      <div class="tabs">
+        <button class="tab on" onclick="swTab('Html',this)">HTML Body</button>
+        <button class="tab" onclick="swTab('Plain',this)">Plain Text</button>
+      </div>
+
+      <div id="tcHtml" class="tc on">
+        <div class="field">
+          <label>HTML Body — use {{name}}, {{email}}, {{company}}…</label>
+          <textarea id="bodyHtml" rows="9" placeholder="<p>Hi {{name}},</p>&#10;<p>We have something special for you...</p>&#10;<br>&#10;<p>Best regards,<br>Your Team</p>"></textarea>
+        </div>
+      </div>
+      <div id="tcPlain" class="tc">
+        <div class="field">
+          <label>Plain Text Fallback</label>
+          <textarea id="bodyPlain" rows="9" placeholder="Hi {{name}},&#10;&#10;We have something special for you..."></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── RIGHT MAIN ────────────────────────────────────────────────── -->
+  <div>
+
+    <!-- Upload -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">📂</div>
+          Leads Spreadsheet
+        </div>
+      </div>
+
+      <!-- Source Tabs -->
+      <div style="display:flex;gap:2px;background:var(--bg);border-radius:6px;padding:3px;margin-bottom:14px;">
+        <button class="tab on" id="srcTabFile" onclick="switchSrc('file',this)" style="flex:1;font-family:var(--font)">📁 Upload File</button>
+        <button class="tab" id="srcTabSheet" onclick="switchSrc('sheet',this)" style="flex:1;font-family:var(--font)">🟢 Google Sheets</button>
+      </div>
+
+      <!-- File Upload -->
+      <div id="srcFile">
+        <div id="dropZone" class="drop-zone" onclick="document.getElementById('fileInput').click()">
+          <div class="dz-icon">📊</div>
+          <div class="dz-title">Click or drag & drop your spreadsheet here</div>
+          <div class="dz-sub">Supports .xlsx, .xls, .csv &nbsp;·&nbsp; Required column: <strong>email</strong></div>
+        </div>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadFile(this)">
+      </div>
+
+      <!-- Google Sheets -->
+      <div id="srcSheet" style="display:none;">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span style="font-size:20px;">🟢</span>
+            <span style="font-size:13px;font-weight:600;color:var(--text);">Google Sheets URL</span>
+          </div>
+          <input type="text" id="sheetsUrl" placeholder="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"
+            style="margin-bottom:10px;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6;background:rgba(232,65,24,0.06);border-radius:5px;padding:8px 10px;border:1px solid rgba(232,65,24,0.15);">
+            ⚠️ <strong style="color:var(--accent);">Important:</strong> Your sheet must be set to
+            <strong style="color:var(--text);">"Anyone with the link can View"</strong><br>
+            Sheet → Share → Change to Anyone with link → Viewer
+          </div>
+          <button class="btn btn-primary btn-block" onclick="fetchSheets()">
+            ↓ &nbsp;Fetch Leads from Google Sheets
+          </button>
+        </div>
+      </div>
+
+      <div id="leadsInfo" class="leads-info" style="display:none">
+        <span class="lc" id="leadsCount">0</span>
+        <span class="ll">leads loaded</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--muted)" id="leadsCols"></span>
+        <button class="btn btn-ghost btn-sm" onclick="clearLeads()">✕ Clear</button>
+      </div>
+
+      <div id="prevTable" class="prev-table" style="display:none"></div>
+    </div>
+
+    <!-- Campaign Control -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">🚀</div>
+          Campaign Control
+        </div>
+        <div id="statusPill" class="pill idle">
+          <span class="pdot"></span> Idle
+        </div>
+      </div>
+
+      <div id="dailyWarn" class="banner">
+        ⚠ Approaching daily limit — only <strong id="dailyRem"></strong> emails remaining today.
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-box s-total">
+          <div class="sv" id="stTotal">0</div>
+          <div class="sl">Total</div>
+        </div>
+        <div class="stat-box s-sent">
+          <div class="sv" id="stSent">0</div>
+          <div class="sl">Sent ✓</div>
+        </div>
+        <div class="stat-box s-failed">
+          <div class="sv" id="stFailed">0</div>
+          <div class="sl">Failed ✗</div>
+        </div>
+        <div class="stat-box s-skip">
+          <div class="sv" id="stSkip">0</div>
+          <div class="sl">Skipped</div>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="prog-wrap">
+        <div class="prog-bar" id="progBar" style="width:0%"></div>
+      </div>
+      <div class="prog-meta">
+        <span id="progPct" style="font-weight:600;color:var(--accent)">0%</span>
+        <span id="progFrac" style="color:var(--muted2)">0 / 0</span>
+      </div>
+
+      <!-- Current sending -->
+      <div class="curr-strip" id="currStrip">
+        <span class="arrow">→</span>
+        <span class="addr" id="currEmail" style="color:var(--muted)">Not started</span>
+      </div>
+
+      <!-- Controls -->
+      <div class="ctrl-row">
+        <button class="btn btn-primary" id="btnStart" onclick="startCampaign()">▶&nbsp; Start Campaign</button>
+        <button class="btn btn-warn" id="btnPause" onclick="pauseCampaign()" disabled>⏸&nbsp; Pause</button>
+        <button class="btn btn-danger" id="btnStop" onclick="stopCampaign()" disabled>⏹&nbsp; Stop</button>
+      </div>
+    </div>
+
+    <!-- Live Log -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">📋</div>
+          Live Log
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear</button>
+      </div>
+      <div class="log-panel" id="logPanel">
+        <div class="log-line info">
+          <span class="lts">--:--:--</span><span class="lmsg">Waiting to start…</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ PREVIEW MODAL ════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">Email Preview — First Lead</div>
+    <div class="modal-meta">
+      <div>To: <span id="pvTo"></span></div>
+      <div>Subject: <span id="pvSubject"></span></div>
+    </div>
+    <div class="modal-body" id="pvBody"></div>
+  </div>
+</div>
+
+<script>
+// ── SSE ────────────────────────────────────────────────────────────────
+let autoScroll = true;
+let evtSrc = null;
+
+function connectSSE() {
+  if (evtSrc) evtSrc.close();
+  evtSrc = new EventSource('/events');
+  evtSrc.onmessage = e => {
+    const d = JSON.parse(e.data);
+    if (d.type === 'progress') handleProgress(d);
+    else if (d.type === 'log') appendLog(d);
+  };
+  evtSrc.onerror = () => setTimeout(connectSSE, 3000);
+}
+connectSSE();
+
+// ── Progress ───────────────────────────────────────────────────────────
+function handleProgress(d) {
+  document.getElementById('stTotal').textContent  = d.total;
+  document.getElementById('stSent').textContent   = d.sent;
+  document.getElementById('stFailed').textContent = d.failed;
+  document.getElementById('stSkip').textContent   = d.skipped;
+
+  const done = d.sent + d.failed + d.skipped;
+  const pct  = d.total > 0 ? Math.round(done / d.total * 100) : 0;
+  document.getElementById('progBar').style.width    = pct + '%';
+  document.getElementById('progPct').textContent    = pct + '%';
+  document.getElementById('progFrac').textContent   = done + ' / ' + d.total;
+  document.getElementById('currEmail').textContent  = d.current_email || 'Waiting…';
+  document.getElementById('currEmail').style.color  = d.current_email ? 'var(--text)' : 'var(--muted)';
+  document.getElementById('dailySentHdr').textContent = d.daily_sent || 0;
+
+  const rem = 2000 - (d.daily_sent || 0);
+  if (rem < 200 && rem > 0) {
+    document.getElementById('dailyRem').textContent = rem;
+    document.getElementById('dailyWarn').classList.add('on');
+  } else {
+    document.getElementById('dailyWarn').classList.remove('on');
+  }
+
+  setPill(d.status);
+  setBtns(d.status);
+}
+
+function setPill(s) {
+  const el = document.getElementById('statusPill');
+  const labels = { idle:'Idle', running:'Running', paused:'Paused', done:'Done ✓', stopped:'Stopped' };
+  el.className = 'pill ' + s;
+  el.innerHTML = `<span class="pdot${s==='running'?' pulse':''}"></span> ${labels[s]||s}`;
+}
+
+function setBtns(s) {
+  const r = s === 'running' || s === 'paused';
+  document.getElementById('btnStart').disabled = r;
+  document.getElementById('btnPause').disabled = !r;
+  document.getElementById('btnStop').disabled  = !r;
+  document.getElementById('btnPause').innerHTML = s === 'paused' ? '▶&nbsp; Resume' : '⏸&nbsp; Pause';
+}
+
+// ── Log ────────────────────────────────────────────────────────────────
+function appendLog(e) {
+  const panel = document.getElementById('logPanel');
+  const line = document.createElement('div');
+  line.className = `log-line ${e.level}`;
+  line.innerHTML = `<span class="lts">${e.ts}</span><span class="lmsg">${esc(e.msg)}</span>`;
+  panel.appendChild(line);
+  if (autoScroll) panel.scrollTop = panel.scrollHeight;
+  while (panel.children.length > 600) panel.removeChild(panel.firstChild);
+}
+function clearLog() { document.getElementById('logPanel').innerHTML = ''; }
+document.getElementById('logPanel').addEventListener('scroll', function() {
+  autoScroll = (this.scrollHeight - this.scrollTop - this.clientHeight) < 40;
+});
+
+// ── Source switcher ────────────────────────────────────────────────────
+function switchSrc(src, btn) {
+  document.querySelectorAll('#srcTabFile, #srcTabSheet').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('srcFile').style.display  = src === 'file'  ? 'block' : 'none';
+  document.getElementById('srcSheet').style.display = src === 'sheet' ? 'block' : 'none';
+}
+
+// ── Google Sheets Fetch ────────────────────────────────────────────────
+async function fetchSheets() {
+  const url = document.getElementById('sheetsUrl').value.trim();
+  if (!url) { alert('Please paste your Google Sheets URL.'); return; }
+
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳  Fetching…';
+
+  try {
+    const res = await fetch('/fetch_sheets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    const d = await res.json();
+
+    if (d.error) {
+      alert('Error: ' + d.error);
+      btn.disabled = false;
+      btn.innerHTML = '↓ &nbsp;Fetch Leads from Google Sheets';
+      return;
+    }
+
+    btn.innerHTML = `✅ &nbsp;${d.total} leads fetched!`;
+    document.getElementById('leadsCount').textContent = d.total;
+    document.getElementById('leadsCols').textContent = d.columns.join(' · ');
+    document.getElementById('leadsInfo').style.display = 'flex';
+
+    if (d.preview && d.preview.length) {
+      let html = `<table><tr>${d.columns.map(c=>`<th>${esc(c)}</th>`).join('')}</tr>`;
+      d.preview.forEach(r => { html += `<tr>${d.columns.map(c=>`<td>${esc(String(r[c]||''))}</td>`).join('')}</tr>`; });
+      html += '</table>';
+      document.getElementById('prevTable').innerHTML = html;
+      document.getElementById('prevTable').style.display = 'block';
+    }
+
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = '↓ &nbsp;Fetch Leads from Google Sheets';
+    }, 3000);
+
+  } catch (err) {
+    alert('Network error: ' + err.message);
+    btn.disabled = false;
+    btn.innerHTML = '↓ &nbsp;Fetch Leads from Google Sheets';
+  }
+}
+
+// ── Upload ─────────────────────────────────────────────────────────────
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragover'); if (e.dataTransfer.files[0]) doUpload(e.dataTransfer.files[0]); });
+function uploadFile(inp) { if (inp.files[0]) doUpload(inp.files[0]); }
+
+async function doUpload(file) {
+  dz.innerHTML = `<div class="dz-icon">⏳</div><div class="dz-title">Uploading ${esc(file.name)}…</div>`;
+  const fd = new FormData(); fd.append('file', file);
+  try {
+    const res = await fetch('/upload', { method:'POST', body:fd });
+    const d = await res.json();
+    if (d.error) { dzErr(d.error); return; }
+
+    dz.innerHTML = `<div class="dz-icon">✅</div><div class="dz-title">${esc(file.name)}</div><div class="dz-sub">Click to change file</div>`;
+    document.getElementById('leadsCount').textContent = d.total;
+    document.getElementById('leadsCols').textContent = d.columns.join(' · ');
+    document.getElementById('leadsInfo').style.display = 'flex';
+
+    if (d.preview && d.preview.length) {
+      let html = `<table><tr>${d.columns.map(c=>`<th>${esc(c)}</th>`).join('')}</tr>`;
+      d.preview.forEach(r => { html += `<tr>${d.columns.map(c=>`<td>${esc(String(r[c]||''))}</td>`).join('')}</tr>`; });
+      html += '</table>';
+      document.getElementById('prevTable').innerHTML = html;
+      document.getElementById('prevTable').style.display = 'block';
+    }
+  } catch (err) { dzErr(err.message); }
+}
+
+function dzErr(msg) {
+  dz.innerHTML = `<div class="dz-icon">❌</div><div class="dz-title">Error: ${esc(msg)}</div><div class="dz-sub">Click to try again</div>`;
+}
+
+async function clearLeads() {
+  if (!(await post('/clear_leads')).ok) return;
+  document.getElementById('leadsInfo').style.display = 'none';
+  document.getElementById('prevTable').style.display = 'none';
+  document.getElementById('fileInput').value = '';
+  dz.innerHTML = `<div class="dz-icon">📊</div><div class="dz-title">Click or drag & drop your spreadsheet here</div><div class="dz-sub">Supports .xlsx, .xls, .csv &nbsp;·&nbsp; Required column: <strong>email</strong></div>`;
+  ['stTotal','stSent','stFailed','stSkip'].forEach(id => document.getElementById(id).textContent='0');
+  document.getElementById('progBar').style.width='0%';
+  document.getElementById('progPct').textContent='0%';
+  document.getElementById('progFrac').textContent='0 / 0';
+  setPill('idle');
+}
+
+// ── Campaign ───────────────────────────────────────────────────────────
+async function startCampaign() {
+  const payload = {
+    host:        v('smtpHost'), port: v('smtpPort'),
+    from_email:  v('fromEmail'), from_name: v('fromName'),
+    password:    v('smtpPass'),
+    subject:     v('subject'),
+    body_html:   v('bodyHtml'), body_plain: v('bodyPlain'),
+    gap_seconds: v('gapSelect'),
+  };
+  if (!payload.from_email || !payload.password || !payload.subject || !payload.body_html) {
+    alert('Please fill in: From Email, Password, Subject, and HTML Body.'); return;
+  }
+  clearLog();
+  const res = await fetch('/start', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+  const d = await res.json();
+  if (d.error) alert('Error: ' + d.error);
+}
+
+async function pauseCampaign() {
+  const res = await fetch('/pause', { method:'POST' });
+  const d = await res.json();
+  if (d.error) alert(d.error);
+}
+
+async function stopCampaign() {
+  if (!confirm('Stop the current campaign?')) return;
+  await fetch('/stop', { method:'POST' });
+}
+
+// ── Preview ────────────────────────────────────────────────────────────
+async function previewEmail() {
+  const res = await fetch('/preview', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ subject:v('subject'), body_html:v('bodyHtml'), body_plain:v('bodyPlain') })
+  });
+  const d = await res.json();
+  if (d.error) { alert(d.error); return; }
+  document.getElementById('pvTo').textContent      = d.to;
+  document.getElementById('pvSubject').textContent = d.subject;
+  document.getElementById('pvBody').innerHTML      = d.body_html || `<pre style="font-size:12px">${esc(d.body_plain)}</pre>`;
+  document.getElementById('overlay').classList.add('on');
+}
+function overlayClick(e) { if (e.target===document.getElementById('overlay')) closeModal(); }
+function closeModal() { document.getElementById('overlay').classList.remove('on'); }
+
+// ── Tabs ───────────────────────────────────────────────────────────────
+function swTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tc').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tc' + name).classList.add('on');
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────
+const v = id => document.getElementById(id).value;
+const post = url => fetch(url, { method:'POST' });
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
